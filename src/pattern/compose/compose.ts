@@ -20,7 +20,7 @@ const compose = <Type>(...func: UnaryFunction<Type>[]) => {
  * @example
  * @author
  */
-
+type UnaryFunction<T> = (arg: T) => T;
 const composeMulti = <
   Args extends UnaryFunction<any>[],
   T extends Parameters<LastInArray<Args>>[number]
