@@ -8,30 +8,30 @@ export class MaybeArray<Type extends unknown[]> extends MaybeContainer<Type> {
      throw new Error("Not an array");
  }
  map = <TypeMap>(
-   callBack: (param: Type[0]) => TypeMap
+   callBack: (param: Type[number]) => TypeMap
  ): MaybeArray<TypeMap[]> => {
    if (this.isNothing() || this.isEmpty()) return new MaybeArray();
    return new MaybeArray<TypeMap[]>(this.containerValue.map(callBack));
  };
 
- unwrapMap = <TypeMap>(callBack: (param: Type[0]) => TypeMap): TypeMap[] => {
+ unwrapMap = <TypeMap>(callBack: (param: Type[number]) => TypeMap): TypeMap[] => {
    return this.containerValue.map(callBack);
  };
 
  filter = (
-   callBack: (param: Type[0]) => Type[0] | boolean
- ): MaybeArray<Type[0][]> => {
+   callBack: (param: Type[number]) => Type[number] | boolean
+ ): MaybeArray<Type[number][]> => {
    if (this.isNothing() || this.isEmpty()) return new MaybeArray();
-   return new MaybeArray<Type[0][]>(this.containerValue.filter(callBack));
+   return new MaybeArray<Type[number][]>(this.containerValue.filter(callBack));
  };
- unwrapFilter = (callBack: (param: Type[0]) => Type[0] | boolean): Type[0][] =>
+ unwrapFilter = (callBack: (param: Type[number]) => Type[number] | boolean): Type[number][] =>
    this.containerValue.filter((item) => callBack(item));
 
- find = (callBack: (param: Type[0]) => Type[0] | boolean): Maybe<Type[0]> => {
+ find = (callBack: (param: Type[number]) => Type[number] | boolean): Maybe<Type[number]> => {
    if (this.isNothing() || this.isEmpty()) return new Maybe();
    return MaybeContainer.from(this.containerValue.find(callBack));
  };
- includes = (value: Type[0]): boolean => {
+ includes = (value: Type[number]): boolean => {
    if (this.isNothing() || this.isEmpty()) false;
    return this.containerValue.includes(value);
  };

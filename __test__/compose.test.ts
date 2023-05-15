@@ -45,4 +45,17 @@ suite("Compose suite", () => {
     console.timeEnd("cma");
     expect(composedCalculation).to.be.equal("0");
   });
+  suite("Overkill", () => {
+    test("compose", () => {});
+    test("multiCompose", ({ expect }) => {
+      const first = (x: number) => x + x;
+      const second = (y: number) => y * y;
+      const third = (z: number) => (z - z).toString();
+      const fourth = (z: number) => z - z;
+      console.time("cm");
+      const composedCalculation = composeMulti(fourth, third, second, first)(2);
+      console.timeEnd("cm");
+      expect(composedCalculation).to.be.equal("0");
+    });
+  });
 });
