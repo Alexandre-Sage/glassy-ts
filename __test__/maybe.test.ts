@@ -78,11 +78,12 @@ suite("MaybeContainer", () => {
 
     test("isEmpty", ({ expect }) => {
       const maybeArray = MaybeContainer.fromArray([]),
-        maybeArrayUndefined = MaybeContainer.fromArray();
+        maybeArrayUndefined = MaybeContainer.fromArray(undefined);
+      const chainded = maybeArrayUndefined.find((item) => item === "test");
       expect(maybeArray.isEmpty()).toBeTruthy();
       expect(maybeArrayUndefined.isEmpty()).toBeTruthy();
     });
-
+    test("isNothing", () => {});
     test("length", ({ expect }) => {
       const maybeArray = MaybeContainer.fromArray([]),
         maybeArrayUndefined = MaybeContainer.fromArray();

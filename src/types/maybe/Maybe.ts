@@ -9,9 +9,9 @@ export class Maybe<Type> extends MaybeContainer<Type> {
 
  public map = <TypeMap>(
    callBack: (param: Type) => TypeMap
- ): MaybeContainer<TypeMap> => {
-   if (this.isNothing()) return new MaybeContainer();
-   return new MaybeContainer<TypeMap>(callBack(this.containerValue));
+ ): Maybe<TypeMap> => {
+   if (this.isNothing()) return new Maybe();
+   return new Maybe<TypeMap>(callBack(this.containerValue));
  };
  public unwrapMap = <TypeMap>(callBack: (param: Type) => TypeMap): TypeMap =>
    callBack(this.containerValue);

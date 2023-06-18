@@ -1,4 +1,4 @@
-import { LastInArray, UnaryFunction } from "../../types";
+import { DropArrayRecursive, LastInArray, UnaryFunction } from "../../types";
 
 /**
  * @name compose 
@@ -20,14 +20,15 @@ const compose = <Type>(...func: UnaryFunction<Type>[]) => {
  * @example
  * @author
  */
-
+type UnaryFunctionT<Param, Return = Param> = (arg: Param) => Return;
 const composeMulti = <
-  Args extends UnaryFunction<any>[],
-  T extends Parameters<LastInArray<Args>>[number]
+  Args extends UnaryFunctionT<any, any>[],
+  T extends Parameters<LastInArray<Args>>[number],
+  R extends ReturnType<Args[0]>
 >(
   ...func: Args
 ) => {
-  return (p: T) => func.reduceRight((acc, cur) => cur(acc), p);
+  return (p: T | R) => func.reduceRight((acc, cur) => cur(acc), p);
 };
 
 export { compose, composeMulti };
