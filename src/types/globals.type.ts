@@ -1,19 +1,21 @@
-type ArrayInsideType<T> = T extends (infer U)[] ? U : T;
+type ObjectValue<T> = T[keyof T];
+type ObjectKeysToArray<T> = (keyof T)[];
 
-type UnaryFunction<T> = (arg: T) => T;
-type UnaryFunctionAsync<T> = (arg: Awaited<T>) => Promise<T>;
-type ArrayLength<T extends any[]> = T extends { length: infer L } ? L : never;
-
-type DropFirstInArray<T extends any[]> = T extends [arg: any, ...rest: infer U]
-  ? U
-  : T;
-type LastInArray<T extends any[]> = T[ArrayLength<DropFirstInArray<T>>];
+type CamelCaseToSnakeCaseTypeKeys<T extends string> =
+  T extends `${infer FirstWord}${infer UpperCaseWords}`
+    ? `${FirstWord extends Lowercase<FirstWord>
+        ? FirstWord
+        : `_${Lowercase<FirstWord>}`}${CamelCaseToSnakeCaseTypeKeys<UpperCaseWords>}`
+    : T;
+type ObjectKeysCamelCaseToSnakeCaseTypeMapper<Object> = {
+  [Property in keyof Object as CamelCaseToSnakeCaseTypeKeys<
+    Property & string
+  >]: Object[Property];
+};
 
 export {
-  ArrayInsideType,
-  UnaryFunction,
-  UnaryFunctionAsync,
-  ArrayLength,
-  DropFirstInArray,
-  LastInArray,
+  ObjectKeysToArray,
+  ObjectValue,
+  CamelCaseToSnakeCaseTypeKeys,
+  ObjectKeysCamelCaseToSnakeCaseTypeMapper,
 };
