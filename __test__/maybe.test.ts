@@ -52,7 +52,11 @@ suite("MaybeContainer", () => {
       expect(chained.unwrap()).to.be.equal("Promise fullfiled Hello world");
     });
   });
-
+  test("async", async () => {
+    const test = async () => "Hello world";
+    const maybePromise = await MaybeContainer.fromAsync<string>(test());
+    expect(maybePromise.unwrap()).to.be.equal("Hello world");
+  });
   suite("MaybeArray", () => {
     const arrayOfNumberString = ["1", "2", "3"];
     const arrayOfString = "HELLOWORLD".split("");
