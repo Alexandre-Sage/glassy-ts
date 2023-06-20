@@ -18,6 +18,8 @@ export class MaybeContainer<Type> {
         : this.from(inputValue)
     ) as T extends unknown[] ? MaybeArray<T> : Maybe<T>;
   };
+  public static fromAsync = async <Type>(inputValue: Promise<Type>) =>
+    MaybeContainer.new(await inputValue);
   protected containerValue!: Type;
 
   protected constructor(inputValue?: Type) {
