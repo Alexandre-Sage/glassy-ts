@@ -2,7 +2,7 @@
   "name": "glassy-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "./index.ts",
+  "main": "./build/index.js",
   "scripts": {
     "test": "vitest --reporter=verbose",
     "build": "rm -rf ./build && npx tsc"
