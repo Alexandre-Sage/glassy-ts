@@ -2,7 +2,7 @@
   "name": "glassy-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "./build/index.js",
+  "main": "./index.ts",
   "scripts": {
     "test": "vitest --reporter=verbose",
     "build": "rm -rf ./build && npx tsc"
@@ -15,5 +15,8 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "vitest": "^0.31.0"
+  },
+  "dependencies": {
+    "glassy-ts": "github:Alexandre-Sage/glassy-ts#master"
   }
 }
