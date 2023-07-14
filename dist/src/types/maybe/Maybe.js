@@ -10,7 +10,7 @@ class Maybe extends MaybeContainer_1.MaybeContainer {
     map = (callBack) => {
         if (this.isNothing())
             return new MaybeContainer_1.MaybeContainer();
-        return new MaybeContainer_1.MaybeContainer(callBack(this.containerValue));
+        return MaybeContainer_1.MaybeContainer.new(callBack(this.containerValue));
     };
     unwrapMap = (callBack) => callBack(this.containerValue);
 }

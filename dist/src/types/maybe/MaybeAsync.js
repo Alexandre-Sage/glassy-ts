@@ -8,6 +8,7 @@ class MaybeAsync extends MaybeContainer_1.MaybeContainer {
         if (inputValue && !(inputValue instanceof Promise))
             this.containerValue = Promise.resolve(inputValue);
     }
+    static async = async (inputValue) => MaybeContainer_1.MaybeContainer.new(await inputValue);
     unwrapAwait = async () => await this.containerValue;
 }
 exports.MaybeAsync = MaybeAsync;

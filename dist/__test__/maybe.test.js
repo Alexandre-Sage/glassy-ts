@@ -52,6 +52,11 @@ const unwrapError = new Error("Value is undefined");
             expect(chained.unwrap()).to.be.equal("Promise fullfiled Hello world");
         });
     });
+    (0, vitest_1.test)("async", async () => {
+        const test = async () => "Hello world";
+        const maybePromise = await src_1.MaybeContainer.fromAsync(test());
+        (0, vitest_1.expect)(maybePromise.unwrap()).to.be.equal("Hello world");
+    });
     (0, vitest_1.suite)("MaybeArray", () => {
         const arrayOfNumberString = ["1", "2", "3"];
         const arrayOfString = "HELLOWORLD".split("");

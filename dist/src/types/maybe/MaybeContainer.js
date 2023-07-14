@@ -13,6 +13,7 @@ class MaybeContainer {
             ? this.fromArray(inputValue)
             : this.from(inputValue));
     };
+    static fromAsync = async (inputValue) => MaybeContainer.new(await inputValue);
     containerValue;
     constructor(inputValue) {
         if (inputValue)
