@@ -132,7 +132,6 @@ const unwrapError = new Error("Value is undefined");
             }))
                 .filter((item) => item.date !== undefined)
                 .find((item) => item.name === "name");
-            // console.log({ resultTwo:  })
             (0, vitest_1.expect)(resultTwo.isNothing()).toBeTruthy();
         });
     });

@@ -11,9 +11,9 @@
       "dom",
       "ESNext"
     ], /* Specify a set of bundled library declaration files that describe the target runtime environment. */
-   
+    
     "module": "NodeNext", /* Specify what module code is generated. */
-    "rootDir": "./src",                                  /* Specify the root folder within your source files. */
+    "rootDir": "./",                                  /* Specify the root folder within your source files. */
     "moduleResolution": "node", /* Specify how TypeScript looks up a file from a given module specifier. */
     "baseUrl": "./src",                                  /* Specify the base directory to resolve non-relative module names. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
@@ -71,5 +71,6 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true,
     /* Skip type checking all .d.ts files. */
-  }
+  },
+  "exclude": ["__test__"]
 }
