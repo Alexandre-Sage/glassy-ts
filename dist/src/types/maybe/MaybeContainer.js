@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MaybeSimple = exports.MaybeArray = exports.MaybeAsync = exports.Maybe = void 0;
-class Maybe {
+exports.Maybe = exports.MaybeArray = exports.MaybeAsync = exports.MaybeContainer = void 0;
+class MaybeContainer {
     containerValue;
-    static from = (ofInputValue) => new MaybeSimple(ofInputValue);
+    static from = (ofInputValue) => new Maybe(ofInputValue);
     static fromArray = (array) => new MaybeArray(array);
     static async = (inputValue) => new MaybeAsync(inputValue);
     static new = (inputValue) => {
@@ -23,20 +23,20 @@ class Maybe {
             throw new Error("Value is undefined");
         return this.containerValue;
     };
-    chain = (callBack) => new Maybe(callBack(this.containerValue));
+    chain = (callBack) => new MaybeContainer(callBack(this.containerValue));
     isError = () => this.containerValue instanceof Error;
 }
-exports.Maybe = Maybe;
-class MaybeAsync extends Maybe {
+exports.MaybeContainer = MaybeContainer;
+class MaybeAsync extends MaybeContainer {
     constructor(inputValue) {
         super(inputValue);
         if (inputValue && !(inputValue instanceof Promise))
             this.containerValue = inputValue;
     }
-    resolve = async () => Maybe.new(await this.containerValue);
+    resolve = async () => MaybeContainer.new(await this.containerValue);
 }
 exports.MaybeAsync = MaybeAsync;
-class MaybeArray extends Maybe {
+class MaybeArray extends MaybeContainer {
     constructor(inputValue) {
         super(inputValue);
         if (inputValue && !Array.isArray(inputValue))
@@ -58,8 +58,8 @@ class MaybeArray extends Maybe {
     unwrapFilter = (callBack) => this.containerValue.filter((item) => callBack(item));
     find = (callBack) => {
         if (this.isNothing() || this.isEmpty())
-            return Maybe.new();
-        return Maybe.from(this.containerValue.find(callBack));
+            return MaybeContainer.new();
+        return MaybeContainer.from(this.containerValue.find(callBack));
     };
     includes = (value) => {
         if (this.isNothing() || this.isEmpty())
@@ -70,16 +70,16 @@ class MaybeArray extends Maybe {
     isEmpty = () => this.isNothing() || !this.length;
 }
 exports.MaybeArray = MaybeArray;
-class MaybeSimple extends Maybe {
+class Maybe extends MaybeContainer {
     constructor(inputValue) {
         super(inputValue);
     }
     isNothing = () => this.containerValue === null || this.containerValue === undefined;
     map = (callBack) => {
         if (this.isNothing())
-            return new Maybe();
-        return Maybe.new(callBack(this.containerValue));
+            return new MaybeContainer();
+        return MaybeContainer.new(callBack(this.containerValue));
     };
     unwrapMap = (callBack) => callBack(this.containerValue);
 }
-exports.MaybeSimple = MaybeSimple;
+exports.Maybe = Maybe;
