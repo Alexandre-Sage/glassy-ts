@@ -1,5 +1,5 @@
 import { expect, suite, test } from "vitest";
-import { MaybeContainer } from "../src";
+import { Maybe } from "../src";
 const fakeMaybePromise = async (param: number) => {
   if (param === 1) return "Promise fullfiled";
   else if (param === 2) throw new Error("Ann error ocured");
@@ -10,8 +10,8 @@ const fakeMaybePromise = async (param: number) => {
 const unwrapError = new Error("Value is undefined");
 suite("MaybeContainer", () => {
   test("new", () => {
-    const maybeArray = MaybeContainer.new([1, 2, 3, 4]);
-    const maybeOfString = MaybeContainer.new("HelloWorld");
+    const maybeArray = Maybe.new([1, 2, 3, 4]);
+    const maybeOfString = Maybe.new("HelloWorld");
     const result = maybeArray.find((item) => item === 2),
       resultTwo = maybeOfString.unwrapMap((item) => item.split("").join("_"));
     expect(result.isNothing()).toBeFalsy();
@@ -20,20 +20,20 @@ suite("MaybeContainer", () => {
   });
   suite("Maybe", () => {
     test("isValue", async ({ expect }) => {
-      const maybePromise = MaybeContainer.from(await fakeMaybePromise(1));
+      const maybePromise = Maybe.new(await fakeMaybePromise(1));
       const maybeNothing = maybePromise.isNothing();
       expect(maybeNothing).toBeFalsy();
       expect(maybePromise.unwrap()).to.be.equal("Promise fullfiled");
     });
 
     test("map", async ({ expect }) => {
-      const maybePromise = MaybeContainer.from("1");
+      const maybePromise = Maybe.new("1");
       const mappedMaybe = maybePromise.map((item) => parseInt(item));
       expect(mappedMaybe.unwrap()).toEqual(1);
     });
 
     test("isNothing", async ({ expect }) => {
-      const maybePromise = MaybeContainer.from(await fakeMaybePromise(3));
+      const maybePromise = Maybe.new(await fakeMaybePromise(3));
       const maybeNothing = maybePromise.isNothing();
       expect(maybeNothing).toBeTruthy();
       const mappedMaybe = maybePromise.map((res) =>
@@ -42,21 +42,17 @@ suite("MaybeContainer", () => {
     });
 
     test("unwrap error", async ({ expect }) => {
-      const maybePromise = MaybeContainer.from(await fakeMaybePromise(3));
+      const maybePromise = Maybe.new(await fakeMaybePromise(3));
       expect(() => maybePromise.unwrap()).toThrowError(unwrapError);
     });
 
     test("chain", async ({ expect }) => {
-      const maybePromise = MaybeContainer.from(await fakeMaybePromise(1));
+      const maybePromise = Maybe.new(await fakeMaybePromise(1));
       const chained = maybePromise.chain((p) => p + " Hello world");
       expect(chained.unwrap()).to.be.equal("Promise fullfiled Hello world");
     });
   });
-  test("async", async () => {
-    const test = async () => "Hello world";
-    const maybePromise = await MaybeContainer.fromAsync<string>(test());
-    expect(maybePromise.unwrap()).to.be.equal("Hello world");
-  });
+
   suite("MaybeArray", () => {
     const arrayOfNumberString = ["1", "2", "3"];
     const arrayOfString = "HELLOWORLD".split("");
@@ -72,7 +68,7 @@ suite("MaybeContainer", () => {
     ];
 
     test("isValue", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray(arrayOfString);
+      const maybeArray = Maybe.new(arrayOfString);
       expect(maybeArray.isEmpty() && maybeArray.isNothing()).toBeFalsy();
       expect(maybeArray.unwrap()).toHaveLength(10);
       maybeArray.unwrap().forEach((element) => {
@@ -81,26 +77,26 @@ suite("MaybeContainer", () => {
     });
 
     test("isEmpty", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray([]),
-        maybeArrayUndefined = MaybeContainer.fromArray();
+      const maybeArray = Maybe.new([]),
+        maybeArrayUndefined = Maybe.new();
       expect(maybeArray.isEmpty()).toBeTruthy();
-      expect(maybeArrayUndefined.isEmpty()).toBeTruthy();
+      expect(maybeArrayUndefined.isNothing()).toBeTruthy();
     });
 
     test("length", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray([]),
-        maybeArrayUndefined = MaybeContainer.fromArray();
+      const maybeArray = Maybe.new([]),
+        maybeArrayUndefined = Maybe.new();
     });
 
     test("map", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray(arrayOfNumberString);
+      const maybeArray = Maybe.new(arrayOfNumberString);
       const mapped = maybeArray.map((stringNumber) => parseInt(stringNumber));
       expect(mapped.length).toEqual(arrayOfNumberString.length);
       expect(mapped.unwrap()).toEqual([1, 2, 3]);
     });
 
     test("unwrapMap", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray(arrayOfNumberString);
+      const maybeArray = Maybe.new(arrayOfNumberString);
       const mapped = maybeArray.unwrapMap((stringNumber) =>
         parseInt(stringNumber)
       );
@@ -109,7 +105,7 @@ suite("MaybeContainer", () => {
     });
 
     test("filter", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray(arrayOfNumberString);
+      const maybeArray = Maybe.new(arrayOfNumberString);
       const filtered = maybeArray.filter(
         (stringNumber) => stringNumber === "2"
       );
@@ -117,7 +113,7 @@ suite("MaybeContainer", () => {
     });
 
     test("unwrapFilter", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray(arrayOfNumberString);
+      const maybeArray = Maybe.new(arrayOfNumberString);
       const filtered = maybeArray.unwrapFilter(
         (stringNumber) => stringNumber === "2"
       );
@@ -125,13 +121,13 @@ suite("MaybeContainer", () => {
     });
 
     test("find", ({ expect }) => {
-      const maybeArray = MaybeContainer.fromArray(arrayOfNumberString);
+      const maybeArray = Maybe.new(arrayOfNumberString);
       const finded = maybeArray.find((item) => item === "3");
       expect(finded.unwrap()).toEqual("3");
     });
 
     test("Chaining MaybeArray method", () => {
-      const maybeArray = MaybeContainer.fromArray(arrayOfObject);
+      const maybeArray = Maybe.new(arrayOfObject);
       const result = maybeArray
         .map((item) => ({
           ...item,
@@ -152,8 +148,19 @@ suite("MaybeContainer", () => {
         }))
         .filter((item) => item.date !== undefined)
         .find((item) => item.name === "name");
-      // console.log({ resultTwo:  })
       expect(resultTwo.isNothing()).toBeTruthy();
     });
   });
+  suite("MaybeAsync",()=>{
+    test("async",async ()=>{
+      const maybePromise = Maybe.new(Promise.resolve(["Hello"]))
+      expect(maybePromise instanceof Maybe).to.be.equal(true)
+      const resolved =await maybePromise.resolve();
+      expect(resolved instanceof Maybe).to.be.equal(true)
+    })
+    test("map",async ()=>{})
+    test("from",async ()=>{})
+    test("from",async ()=>{})
+    test("from",async ()=>{})
+  })
 });

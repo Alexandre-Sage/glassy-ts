@@ -50,7 +50,7 @@ const composeAsync_1 = require("../src/pattern/compose/composeAsync");
             console.time("cm");
             const composedCalculation = (0, compose_1.composeMulti)(fourth, third, second, first)(2);
             console.timeEnd("cm");
-            expect(composedCalculation).to.be.equal("0");
+            expect(composedCalculation).to.be.equal(0);
         });
     });
 });

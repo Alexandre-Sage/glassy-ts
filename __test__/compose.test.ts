@@ -55,7 +55,7 @@ suite("Compose suite", () => {
       console.time("cm");
       const composedCalculation = composeMulti(fourth, third, second, first)(2);
       console.timeEnd("cm");
-      expect(composedCalculation).to.be.equal("0");
+      expect(composedCalculation).to.be.equal(0);
     });
   });
 });

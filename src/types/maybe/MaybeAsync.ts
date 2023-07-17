@@ -1,14 +1,11 @@
-import { MaybeContainer } from "./MaybeContainer";
+/* import { Maybe } from "./MaybeContainer";
 
-export class MaybeAsync<Type extends Promise<Type>> extends MaybeContainer<
-  Promise<Type>
-> {
+export class MaybeAsync<Type extends Promise<unknown>> extends Maybe<Type> {
   constructor(inputValue?: Type) {
     super(inputValue);
     if (inputValue && !(inputValue instanceof Promise))
-      this.containerValue = Promise.resolve<Type>(inputValue);
+      this.containerValue = inputValue;
   }
-  public static async = async <Type extends Promise<Type>>(inputValue: Type) =>
-    MaybeContainer.new(await inputValue);
-  public unwrapAwait = async () => await this.containerValue;
+  public resolve = async () => Maybe.new(await this.containerValue);
 }
+ */

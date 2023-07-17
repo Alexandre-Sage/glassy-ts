@@ -1,7 +1,6 @@
-import { Maybe } from "./Maybe";
-import { MaybeContainer } from "./MaybeContainer";
+/* import { Maybe } from "./MaybeContainer";
 
-export class MaybeArray<Type extends unknown[]> extends MaybeContainer<Type> {
+export class MaybeArray<Type extends unknown[]> extends Maybe<Type> {
  constructor(inputValue?: Type) {
    super(inputValue);
    if (inputValue && !Array.isArray(inputValue))
@@ -28,8 +27,8 @@ export class MaybeArray<Type extends unknown[]> extends MaybeContainer<Type> {
    this.containerValue.filter((item) => callBack(item));
 
  find = (callBack: (param: Type[number]) => Type[number] | boolean): Maybe<Type[number]> => {
-   if (this.isNothing() || this.isEmpty()) return new Maybe();
-   return MaybeContainer.from(this.containerValue.find(callBack));
+   if (this.isNothing() || this.isEmpty()) return Maybe.new();
+   return Maybe.from(this.containerValue.find(callBack));
  };
  includes = (value: Type[number]): boolean => {
    if (this.isNothing() || this.isEmpty()) false;
@@ -37,4 +36,4 @@ export class MaybeArray<Type extends unknown[]> extends MaybeContainer<Type> {
  };
  length = !this.isNothing() && this.containerValue.length;
  isEmpty = () => this.isNothing() || !this.length;
-}
+} */

@@ -15,4 +15,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./pattern"), exports);
-__exportStar(require("./types"), exports);
+__exportStar(require("./types/internal"), exports);

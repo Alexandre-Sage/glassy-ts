@@ -1,4 +1,4 @@
-import { LastInArray, UnaryFunction } from "../../types";
+import { LastInArray, UnaryFunction } from "../../types/internal";
 
 /**
  * @name compose 

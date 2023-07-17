@@ -1,4 +1,4 @@
-import { LastInArray, UnaryFunctionAsync } from "../../types";
+import { LastInArray, UnaryFunctionAsync } from "../../types/internal";
 /**
  * @name composeAsync
  * @description functional programing async compose pattern
